@@ -1,0 +1,25 @@
+/* --- App-level styles (layout, navbar, forms) --- */
+
+/* App shell */
+#root { display: flex; flex-direction: column; min-height: 100%; }
+
+/* Navbar */
+.navbar {
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+}
+.navbar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+}
+.brand { font-weight: 800; letter-spacing: .2px; color: var(--text); }
+.nav-links { display: flex; align-items: center; gap: .75rem; }
+.nav-link { color: var(--text); padding: .45rem .65rem; border-radius: .5rem; }
+.nav-link:hover { background: #f1f5f9; }
+
+/* Forms */
+.form-card { max-width: 420px; margin: 2rem auto; }
+.form-field { margin-bottom: 1rem; }
+.helper { font-size: .9rem; }
