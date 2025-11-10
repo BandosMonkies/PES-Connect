@@ -10,6 +10,7 @@ export default function Register() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     password: ''
   });
   const [loading, setLoading] = useState(false);
@@ -69,6 +70,18 @@ export default function Register() {
               value={formData.email}
               onChange={handleChange}
               required
+            />
+
+            <Input
+              label="Phone Number"
+              type="tel"
+              name="phone"
+              id="phone"
+              placeholder="Enter 10-digit phone number"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+              pattern="[0-9]{10}"
             />
 
             <Input
