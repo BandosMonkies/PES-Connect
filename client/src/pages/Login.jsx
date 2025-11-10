@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
 import api from '../lib/api';
 import { setAuth } from '../utils/auth';
-import { useNavigate } from 'react-router-dom';
+import Card from '../components/Card';
+import Input from '../components/Input';
+import Button from '../components/Button';
 
 export default function Login() {
   const navigate = useNavigate();
@@ -36,37 +39,85 @@ export default function Login() {
   };
 
   return (
-    <div className="container">
-      <div className="card form-card">
-        <h2>Login</h2>
-        <p className="text-muted mt-2">Welcome back! Please enter your credentials.</p>
-        <form className="mt-4" onSubmit={handleSubmit}>
-          <div className="form-field">
-            <label htmlFor="email">Email</label>
-            <input
+    <div className="main-content">
+      <div className="container">
+        <Card 
+          className="form-card"
+          title="Welcome Back"
+          subtitle="Sign in to your PES Connect account"
+        >
+          <form onSubmit={handleSubmit}>
+            <Input
+              label="Email Address"
               type="email"
-              id="email"
               name="email"
+              id="email"
+              placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
               required
             />
-          </div>
 
-          <div className="form-field">
-            <label htmlFor="password">Password</label>
-            <input
+            <Input
+              label="Password"
               type="password"
-              id="password"
               name="password"
+              id="password"
+              placeholder="Enter your password"
               value={formData.password}
               onChange={handleChange}
               required
             />
-          </div>
-          <button className="w-full" type="submit" disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
-          {error && <p className="mt-2" style={{ color: 'crimson' }}>{error}</p>}
-        </form>
+
+            <Button 
+              type="submit" 
+              variant="primary" 
+              className="w-full"
+              loading={loading}
+              disabled={loading}
+            >
+              {loading ? 'Signing in...' : 'Sign In'}
+            </Button>
+
+            {error && (
+              <div className="form-message error">
+                {error}
+              </div>
+            )}
+
+            <div style={{ 
+              marginTop: '1.5rem', 
+              textAlign: 'center',
+              paddingTop: '1.5rem',
+              borderTop: '1px solid var(--color-light-gray)'
+            }}>
+              <p style={{ color: 'var(--color-gray)', marginBottom: '0.5rem' }}>
+                Don't have an account?{' '}
+                <Link 
+                  to="/register" 
+                  style={{ 
+                    color: 'var(--color-primary)', 
+                    fontWeight: 600,
+                    textDecoration: 'none'
+                  }}
+                >
+                  Create one now
+                </Link>
+              </p>
+            </div>
+          </form>
+        </Card>
+
+        {/* Info Section */}
+        <div style={{ 
+          maxWidth: '500px', 
+          margin: '2rem auto',
+          textAlign: 'center'
+        }}>
+          <p style={{ color: 'var(--color-gray)', fontSize: '0.95rem' }}>
+            🔒 Your data is protected with industry-standard encryption
+          </p>
+        </div>
       </div>
     </div>
   )
