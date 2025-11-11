@@ -36,9 +36,14 @@ export default function Home() {
             style={{ marginBottom: '2rem', textAlign: 'center' }}
           >
             <div style={{ padding: '2rem 0' }}>
-              <p style={{ fontSize: '1.125rem', color: 'var(--color-gray)', marginBottom: '0' }}>
+              <p style={{ fontSize: '1.125rem', color: 'var(--color-gray)', marginBottom: '1.5rem' }}>
                 You're successfully logged in and ready to explore PES Connect!
               </p>
+              <Link to="/dashboard">
+                <Button variant="primary" size="lg">
+                  Go to Dashboard
+                </Button>
+              </Link>
             </div>
           </Card>
         ) : (

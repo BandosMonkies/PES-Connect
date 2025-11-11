@@ -29,7 +29,7 @@ export default function Login() {
     try {
       const { data } = await api.post('/api/auth/login', formData);
       setAuth({ token: data.token, user: data.user });
-      navigate('/');
+      navigate('/dashboard');
     } catch (err) {
       const msg = err?.response?.data?.message || 'Login failed';
       setError(msg);
