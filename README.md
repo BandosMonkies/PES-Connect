@@ -33,5 +33,5 @@ All PES students, clubs, and university organizations.
 5\. Run `node index.js` <br>
 
 
-**Team AURA++**  
+**Team: AURA++**  
 Nayan Niranjana Kaushik • Nagaraj Hegde • Nihar Sureshwar Oak
