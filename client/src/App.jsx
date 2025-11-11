@@ -7,6 +7,9 @@ import Dashboard from './pages/Dashboard.jsx';
 import ProductList from './pages/resell/ProductList.jsx';
 import ProductDetail from './pages/resell/ProductDetail.jsx';
 import AddProduct from './pages/resell/AddProduct.jsx';
+import PostList from './pages/discussion/PostList.jsx';
+import PostDetail from './pages/discussion/PostDetail.jsx';
+import CreatePost from './pages/discussion/CreatePost.jsx';
 import Navbar from './components/Navbar.jsx';
 
 function App() {
@@ -21,6 +24,9 @@ function App() {
         <Route path='/resell' element={<ProductList />} />
         <Route path='/resell/:id' element={<ProductDetail />} />
         <Route path='/resell/add' element={<AddProduct />} />
+        <Route path='/discussion' element={<PostList />} />
+        <Route path='/discussion/:id' element={<PostDetail />} />
+        <Route path='/discussion/create' element={<CreatePost />} />
       </Routes>
     </>
   )

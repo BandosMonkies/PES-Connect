@@ -30,7 +30,7 @@ export default function Dashboard() {
       description: 'Join discussions, ask questions, and share knowledge like Reddit',
       link: '/discussion',
       color: '#FF6B35',
-      status: 'Coming Soon'
+      status: 'Available'
     },
     {
       id: 'resell',
