@@ -31,7 +31,7 @@ export default function Home() {
         {/* Status Section */}
         {token ? (
           <Card 
-            title="Dashboard" 
+            title="Quick Access" 
             subtitle={`Welcome back, ${user?.name || user?.email}!`}
             style={{ marginBottom: '2rem', textAlign: 'center' }}
           >
