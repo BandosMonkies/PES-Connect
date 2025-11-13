@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom"
-import { getAuth, clearAuth } from '../utils/auth';
+import { getAuth, clearAuth } from '../../utils/auth';
 
 export default function Navbar() {
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
+              <Link className="nav-link" to='/chat'>Chat</Link>
               <span className="text-muted">Hi, {user?.name || user?.email}</span>
               <button className="btn" onClick={handleLogout}>Logout</button>
             </>
