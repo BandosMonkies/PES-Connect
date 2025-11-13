@@ -27,10 +27,12 @@ All PES students, clubs, and university organizations.
 
 # Set-Up
 1\. Clone repo <br>
-2\. Go to frontend directory <br>
+2\. Go to `client` directory <br>
 3\. Run `npm install` then `npm run dev` <br>
-4\. In another termial go to backend directory <br>
-5\. Run `node index.js` <br>
+4\. In another termial go to `server` directory <br>
+5\. Run `npm install` then `node index.js` <br>
+6\. In another terminal go to `chat-server` directory <br>
+7\. run `npm install` then `node index.js`
 
 
 **Team: AURA++**  

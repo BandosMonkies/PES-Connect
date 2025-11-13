@@ -10,6 +10,7 @@ import AddProduct from './pages/resell/AddProduct.jsx';
 import PostList from './pages/discussion/PostList.jsx';
 import PostDetail from './pages/discussion/PostDetail.jsx';
 import CreatePost from './pages/discussion/CreatePost.jsx';
+import ChatPage from './pages/chat/ChatPage.jsx';
 import Navbar from './components/Navbar.jsx';
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/chat' element={<ChatPage />} />
         <Route path='/resell' element={<ProductList />} />
         <Route path='/resell/:id' element={<ProductDetail />} />
         <Route path='/resell/add' element={<AddProduct />} />

@@ -21,7 +21,7 @@ export default function Dashboard() {
       description: 'Connect with your peers through instant messaging, just like WhatsApp',
       link: '/chat',
       color: '#1E88E5',
-      status: 'Coming Soon'
+      status: 'Available'
     },
     {
       id: 'discussion',

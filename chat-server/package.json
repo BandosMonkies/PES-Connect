@@ -1,12 +1,24 @@
 {
-  "name": "chat-server",
+  "$schema": "http://json.schemastore.org/package",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "author": "Nagaraj Hegde",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^7.3.1",
+    "nodemon": "^2.0.22",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1"
   }
 }
