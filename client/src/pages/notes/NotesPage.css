@@ -1,0 +1,57 @@
+.notes-page {
+  min-height: calc(100vh - 70px);
+  background: #f5f5f5;
+}
+
+.notes-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.notes-title {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.notes-title h1 {
+  font-size: 32px;
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.notes-title p {
+  font-size: 16px;
+  margin: 0;
+  opacity: 0.95;
+  line-height: 1.5;
+}
+
+.notes-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+@media (max-width: 768px) {
+  .notes-page {
+    min-height: calc(100vh - 60px);
+  }
+
+  .notes-header {
+    padding: 30px 16px;
+  }
+
+  .notes-title h1 {
+    font-size: 24px;
+  }
+
+  .notes-title p {
+    font-size: 14px;
+  }
+
+  .notes-content {
+    padding: 24px 16px;
+  }
+}

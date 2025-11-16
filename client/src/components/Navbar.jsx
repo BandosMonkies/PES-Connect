@@ -35,6 +35,9 @@ export default function Navbar() {
               <Link className="nav-link" to='/dashboard'>
                 Dashboard
               </Link>
+              <Link className="nav-link" to='/notes'>
+                Notes
+              </Link>
               <span className="nav-user-info">
                 👋 Hi, {user?.name || user?.email}
               </span>

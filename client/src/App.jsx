@@ -11,6 +11,7 @@ import PostList from './pages/discussion/PostList.jsx';
 import PostDetail from './pages/discussion/PostDetail.jsx';
 import CreatePost from './pages/discussion/CreatePost.jsx';
 import ChatPage from './pages/chat/ChatPage.jsx';
+import NotesPage from './pages/notes/NotesPage.jsx';
 import Navbar from './components/Navbar.jsx';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
         <Route path='/discussion' element={<PostList />} />
         <Route path='/discussion/:id' element={<PostDetail />} />
         <Route path='/discussion/create' element={<CreatePost />} />
+        <Route path='/notes' element={<NotesPage />} />
       </Routes>
     </>
   )
