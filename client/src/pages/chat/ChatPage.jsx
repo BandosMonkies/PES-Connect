@@ -14,7 +14,7 @@ const getSocketUrl = () => {
   if (import.meta.env.VITE_SOCKET_URL) {
     return import.meta.env.VITE_SOCKET_URL;
   }
-  return api.defaults.baseURL || 'http://localhost:8000';
+  return api.defaults.baseURL || 'http://localhost:8001';
 };
 
 export default function ChatPage() {

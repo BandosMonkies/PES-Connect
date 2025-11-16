@@ -48,7 +48,7 @@ export default function Dashboard() {
       description: 'Share and access study materials, notes, and resources like Discord',
       link: '/notes',
       color: '#9C27B0',
-      status: 'Coming Soon'
+      status: 'Available'
     }
   ];
 

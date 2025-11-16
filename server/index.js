@@ -7,6 +7,20 @@ const mongoose = require("mongoose");
 
 const authRoutes = require("./routes/auth");
 const chatRoutes = require("./routes/chat");
+
+// Try to load notes routes with error handling
+let notesRoutes;
+try {
+  notesRoutes = require("./routes/notes");
+  console.log("✅ Notes routes loaded successfully");
+  console.log("✅ Router type:", typeof notesRoutes);
+  console.log("✅ Router is function:", typeof notesRoutes === 'function');
+} catch (error) {
+  console.error("❌ Error loading notes routes:", error);
+  console.error(error.stack);
+  process.exit(1);
+}
+
 const { authenticateSocket } = require("./middleware/socketAuth");
 
 const app = express();
@@ -37,6 +51,33 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/chat", chatRoutes);
+
+// Add direct test route BEFORE router to verify server is working
+app.post("/api/notes/test-direct", (req, res) => {
+  console.log("✅ Direct POST route hit!");
+  res.json({ message: "Direct route works!", body: req.body });
+});
+
+app.use("/api/notes", notesRoutes);
+
+// Debug: Log registered routes and verify router
+console.log("API Routes registered:");
+console.log("- /api/auth", typeof authRoutes);
+console.log("- /api/chat", typeof chatRoutes);
+console.log("- /api/notes", typeof notesRoutes);
+console.log("Notes router is function:", typeof notesRoutes === 'function');
+
+// Test route registration
+app.get('/test-routes', (req, res) => {
+  res.json({
+    routesRegistered: {
+      auth: !!authRoutes,
+      chat: !!chatRoutes,
+      notes: !!notesRoutes
+    },
+    notesRouterType: typeof notesRoutes
+  });
+});
 
 io.use(authenticateSocket);
 

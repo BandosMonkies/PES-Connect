@@ -7,3 +7,4 @@ export { default as Input } from './Input.jsx';
 export { default as Card } from './Card.jsx';
 export { default as ConversationPreview } from './chat/ConversationPreview.jsx';
 export { default as MessageBubble } from './chat/MessageBubble.jsx';
+export { default as NoteCard } from './notes/NoteCard.jsx';
