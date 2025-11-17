@@ -49,6 +49,8 @@ export default function ChatPage() {
   const [socketError, setSocketError] = useState('');
   const socketRef = useRef(null);
   const messagesEndRef = useRef(null);
+  const pendingMessageTimeoutsRef = useRef(new Map());
+  const messagesRef = useRef([]);
 
   const currentUserIdRef = useRef(currentUserId);
   useEffect(() => {
@@ -58,6 +60,10 @@ export default function ChatPage() {
   useEffect(() => {
     selectedConversationRef.current = selectedConversationId;
   }, [selectedConversationId]);
+
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
 
   useEffect(() => {
     if (!token) {
@@ -115,7 +121,14 @@ export default function ChatPage() {
 
   const scrollMessagesToEnd = useCallback(() => {
     if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      // Find the chat-messages container
+      const messagesContainer = messagesEndRef.current.closest('.chat-messages');
+      if (messagesContainer) {
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+      } else {
+        // Fallback to scrollIntoView
+        messagesEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      }
     }
   }, []);
 
@@ -131,7 +144,29 @@ export default function ChatPage() {
       try {
         const response = await api.get(`/api/chat/conversations/${conversationId}/messages`);
         const messageList = response.data?.messages || [];
-        setMessages(messageList);
+        
+        // Merge with existing messages to preserve optimistic updates
+        setMessages((prev) => {
+          // Keep optimistic messages that haven't been replaced
+          const optimisticMessages = prev.filter((msg) => msg.isOptimistic);
+          
+          // Merge real messages, avoiding duplicates
+          const merged = [...messageList];
+          optimisticMessages.forEach((optimistic) => {
+            const exists = merged.some((real) => 
+              real.content === optimistic.content &&
+              new Date(real.createdAt).getTime() - new Date(optimistic.createdAt).getTime() < 5000
+            );
+            if (!exists) {
+              merged.push(optimistic);
+            }
+          });
+          
+          // Sort by createdAt
+          return merged.sort((a, b) => 
+            new Date(a.createdAt || 0) - new Date(b.createdAt || 0)
+          );
+        });
 
         // Mark messages as read
         if (messageList.length > 0) {
@@ -188,6 +223,25 @@ export default function ChatPage() {
         socketRef.current.emit('conversation:leave', selectedConversationRef.current);
       }
 
+      // Clear optimistic messages from previous conversation
+      setMessages((prev) => {
+        return prev.filter((msg) => {
+          const msgConversationId = getId(msg.conversation)?.toString();
+          // Remove optimistic messages from other conversations
+          if (msg.isOptimistic && msgConversationId !== conversationId?.toString()) {
+            // Clear timeout for removed optimistic messages
+            const timeout = pendingMessageTimeoutsRef.current.get(msg._id);
+            if (timeout) {
+              clearTimeout(timeout);
+              pendingMessageTimeoutsRef.current.delete(msg._id);
+            }
+            return false;
+          }
+          // Keep only messages from the new conversation (will be replaced by loadMessages)
+          return msgConversationId === conversationId?.toString();
+        });
+      });
+
       setSelectedConversationId(conversationId);
       loadMessages(conversationId);
 
@@ -217,6 +271,8 @@ export default function ChatPage() {
       setSocketError('');
       if (selectedConversationRef.current) {
         socket.emit('conversation:join', selectedConversationRef.current);
+        // Refetch messages on reconnect to ensure we have the latest
+        loadMessages(selectedConversationRef.current);
       }
     });
 
@@ -227,10 +283,26 @@ export default function ChatPage() {
 
     socket.on('message:error', ({ error }) => {
       setSocketError(error || 'Failed to send message.');
+      // Remove the most recent optimistic message on error
+      setMessages((prev) => {
+        const optimisticMessages = prev.filter((msg) => msg.isOptimistic);
+        if (optimisticMessages.length > 0) {
+          // Remove the most recent optimistic message
+          const mostRecent = optimisticMessages[optimisticMessages.length - 1];
+          const timeout = pendingMessageTimeoutsRef.current.get(mostRecent._id);
+          if (timeout) {
+            clearTimeout(timeout);
+            pendingMessageTimeoutsRef.current.delete(mostRecent._id);
+          }
+          return prev.filter((msg) => msg._id !== mostRecent._id);
+        }
+        return prev;
+      });
     });
 
     socket.on('message:receive', (message) => {
       const conversationId = getId(message.conversation)?.toString();
+      const messageId = getId(message)?.toString();
 
       setConversations((prev) => {
         const existingIndex = prev.findIndex(
@@ -261,16 +333,53 @@ export default function ChatPage() {
 
       if (selectedConversationRef.current?.toString() === conversationId) {
         setMessages((prev) => {
-          if (prev.some((existing) => getId(existing) === getId(message))) {
+          // Check if message already exists (improved deduplication)
+          const messageExists = prev.some((existing) => {
+            const existingId = getId(existing)?.toString();
+            return existingId === messageId || 
+                   (!existing.isOptimistic && existing.content === message.content && 
+                    new Date(existing.createdAt).getTime() - new Date(message.createdAt).getTime() < 5000);
+          });
+
+          if (messageExists) {
+            // Replace optimistic message with real one if found
+            const hasOptimistic = prev.some((existing) => 
+              existing.isOptimistic && existing.content === message.content
+            );
+            if (hasOptimistic) {
+              // Replace optimistic message with real message
+              return prev.map((existing) => 
+                existing.isOptimistic && existing.content === message.content
+                  ? message
+                  : existing
+              );
+            }
             return prev;
           }
-          return [...prev, message];
+
+          // Remove any optimistic messages with same content
+          const filtered = prev.filter((existing) => 
+            !(existing.isOptimistic && existing.content === message.content)
+          );
+
+          // Clear fallback timeout if exists
+          prev.forEach((existing) => {
+            if (existing.isOptimistic && existing.content === message.content) {
+              const timeout = pendingMessageTimeoutsRef.current.get(existing._id);
+              if (timeout) {
+                clearTimeout(timeout);
+                pendingMessageTimeoutsRef.current.delete(existing._id);
+              }
+            }
+          });
+
+          return [...filtered, message];
         });
 
         if (socketRef.current?.connected) {
           socketRef.current.emit('message:read', {
             conversationId,
-            messageIds: [getId(message)],
+            messageIds: [messageId],
           });
         }
       }
@@ -314,6 +423,9 @@ export default function ChatPage() {
     return () => {
       Object.values(typingTimeoutRef.current).forEach((timeoutId) => clearTimeout(timeoutId));
       typingTimeoutRef.current = {};
+      // Clear pending message timeouts
+      pendingMessageTimeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+      pendingMessageTimeoutsRef.current.clear();
       socket.off('connect');
       socket.off('connect_error');
       socket.off('message:error');
@@ -412,17 +524,58 @@ export default function ChatPage() {
       return;
     }
 
+    const content = composerValue.trim();
     const payload = {
       conversationId,
-      content: composerValue.trim(),
+      content,
       messageType: 'text',
     };
+
+    // Create optimistic message
+    const optimisticMessage = {
+      _id: `temp-${Date.now()}-${Math.random()}`,
+      conversation: conversationId,
+      sender: { _id: currentUserId, name: user?.name, email: user?.email },
+      content,
+      messageType: 'text',
+      createdAt: new Date().toISOString(),
+      isOptimistic: true,
+    };
+
+    // Optimistically add message to UI
+    setMessages((prev) => {
+      // Check if message already exists (avoid duplicates)
+      const messageExists = prev.some(
+        (existing) =>
+          (existing.isOptimistic && existing.content === content) ||
+          getId(existing)?.toString() === getId(optimisticMessage)?.toString()
+      );
+      if (messageExists) return prev;
+      return [...prev, optimisticMessage];
+    });
 
     setComposerValue('');
     setSendingMessage(true);
 
     socketRef.current.emit('typing:stop', { conversationId });
     socketRef.current.emit('message:send', payload);
+
+    // Fallback: if message doesn't arrive via socket within 3 seconds, refetch messages
+    const fallbackTimeout = setTimeout(() => {
+      const currentMessages = messagesRef.current;
+      const hasRealMessage = currentMessages.some(
+        (msg) => !msg.isOptimistic && msg.content === content
+      );
+      if (!hasRealMessage && selectedConversationId?.toString() === conversationId?.toString()) {
+        loadMessages(conversationId);
+      }
+      // Clean up optimistic message if real one never arrived
+      setMessages((prev) => prev.filter((msg) => msg._id !== optimisticMessage._id));
+      pendingMessageTimeoutsRef.current.delete(optimisticMessage._id);
+    }, 3000);
+
+    // Store timeout to clear it when message arrives
+    pendingMessageTimeoutsRef.current.set(optimisticMessage._id, fallbackTimeout);
 
     setTimeout(() => setSendingMessage(false), 150);
   };

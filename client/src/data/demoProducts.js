@@ -29,7 +29,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-20T14:30:00Z',
     icon: '💻',
-    image: '/assets/images/resell/calculator-1.png'
+    image: '/assets/images/resell/laptop1.png'
   },
   {
     id: '3',
@@ -57,7 +57,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-22T11:00:00Z',
     icon: '📐',
-    image: '/assets/images/resell/mouse-1.png'
+    image: '/assets/images/resell/stand.png'
   },
   {
     id: '5',
@@ -71,7 +71,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-19T16:45:00Z',
     icon: '🔌',
-    image: '/assets/images/resell/mouse-1.png'
+    image: '/assets/images/resell/usb.png'
   },
   // Books
   {
@@ -86,7 +86,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-17T13:20:00Z',
     icon: '📖',
-    image: '/assets/images/resell/mouse-1.png'
+    image: '/assets/images/resell/book5.png'
   },
   {
     id: '7',
@@ -100,7 +100,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-21T10:30:00Z',
     icon: '📚',
-    image: '/assets/images/resell/mouse-1.png'
+    image: '/assets/images/resell/book4.png'
   },
   {
     id: '8',
@@ -114,7 +114,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-16T15:00:00Z',
     icon: '📕',
-    image: null
+    image: '/assets/images/resell/book3.png'
   },
   {
     id: '9',
@@ -128,7 +128,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-23T09:00:00Z',
     icon: '📗',
-    image: null
+    image: '/assets/images/resell/book2.png'
   },
   {
     id: '10',
@@ -142,7 +142,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-14T12:00:00Z',
     icon: '📓',
-    image: null
+    image: '/assets/images/resell/book1.png'
   },
   // Sports
   {
@@ -157,7 +157,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-12T08:00:00Z',
     icon: '🏏',
-    image: null
+    image: '/assets/images/resell/cricket.png'
   },
   {
     id: '12',
@@ -171,7 +171,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-13T14:00:00Z',
     icon: '⚽',
-    image: null
+    image: '/assets/images/resell/fb.png'
   },
   {
     id: '13',
@@ -185,7 +185,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-11T10:00:00Z',
     icon: '🏸',
-    image: null
+    image: '/assets/images/resell/ab.png'
   },
   {
     id: '14',
@@ -199,7 +199,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-10T16:00:00Z',
     icon: '🏀',
-    image: null
+    image: '/assets/images/resell/bascketball.png'
   },
   {
     id: '15',
@@ -213,7 +213,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-09T11:00:00Z',
     icon: '🎒',
-    image: null
+    image: '/assets/images/resell/sports bag.png'
   },
   // More Electronics
   {
@@ -228,7 +228,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-24T13:00:00Z',
     icon: '⌨️',
-    image: null
+    image: '/assets/images/resell/image.png'
   },
   {
     id: '17',
@@ -242,7 +242,7 @@ export const demoProducts = [
     location: 'PES University, EC Campus',
     createdAt: '2024-01-25T09:30:00Z',
     icon: '📹',
-    image: null
+    image: '/assets/images/resell/webcam.png'
   },
   {
     id: '18',
@@ -256,7 +256,7 @@ export const demoProducts = [
     location: 'PES University, RR Campus',
     createdAt: '2024-01-26T15:00:00Z',
     icon: '💾',
-    image: null
+    image: '/assets/images/resell/external disk.png'
   }
 ];
 
