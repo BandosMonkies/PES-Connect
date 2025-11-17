@@ -52,7 +52,7 @@ router.post('/login', async (req, res) => {
     }
 
     const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-me';
-    const token = jwt.sign({ sub: user._id, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
+    const token = jwt.sign({ sub: user._id, name: user.name, email: user.email }, JWT_SECRET, { expiresIn: '7d' });
 
     return res.json({ token, user: publicUser(user) });
   } catch (err) {
