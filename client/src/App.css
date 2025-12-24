@@ -548,6 +548,16 @@
 }
 
 /* --- Chat Application Styles --- */
+.chat-fullscreen {
+  position: fixed;
+  top: 70px; /* Height of navbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--color-off-white);
+  overflow: hidden;
+}
+
 .chat-header {
   display: flex;
   align-items: flex-start;
@@ -568,9 +578,10 @@
 
 .chat-layout {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: var(--spacing-xl);
-  min-height: 65vh;
+  grid-template-columns: 380px 1fr;
+  gap: 0;
+  height: 100%;
+  overflow: hidden;
 }
 
 .chat-sidebar {
@@ -579,6 +590,16 @@
   gap: var(--spacing-lg);
   padding: var(--spacing-lg);
   height: 100%;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-light-gray);
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.chat-sidebar:hover {
+  box-shadow: none;
+  transform: none;
 }
 
 .chat-search {
@@ -792,9 +813,16 @@
   display: flex;
   flex-direction: column;
   padding: var(--spacing-lg);
-  height: 70vh;
-  max-height: 70vh;
+  height: 100%;
+  background: var(--color-white);
   overflow: hidden;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.chat-window:hover {
+  box-shadow: none;
+  transform: none;
 }
 
 .chat-window-header {
@@ -946,12 +974,7 @@
 
 @media (max-width: 1024px) {
   .chat-layout {
-    grid-template-columns: 280px 1fr;
-  }
-
-  .chat-window {
-    height: 65vh;
-    max-height: 65vh;
+    grid-template-columns: 300px 1fr;
   }
 }
 
@@ -960,14 +983,19 @@
     grid-template-columns: 1fr;
   }
 
-  .chat-sidebar,
-  .chat-window {
-    padding: var(--spacing-lg);
+  .chat-sidebar {
+    display: none;
   }
 
-  .chat-window {
-    height: 60vh;
-    max-height: 60vh;
+  .chat-sidebar.mobile-visible {
+    display: flex;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 80%;
+    z-index: 10;
+    box-shadow: var(--shadow-xl);
   }
 
   .conversation-preview {
@@ -980,14 +1008,8 @@
 }
 
 @media (max-width: 480px) {
-  .chat-title {
-    font-size: 2rem;
-  }
-
   .chat-window {
     padding: var(--spacing-md);
-    height: 55vh;
-    max-height: 55vh;
   }
 
   .chat-composer {

@@ -600,28 +600,7 @@ export default function ChatPage() {
   }, [loadMessages, selectedConversationId]);
 
   return (
-    <div className="main-content">
-      <div className="container">
-        <div className="chat-header">
-          <div>
-            <h1 className="chat-title">Chat Hub</h1>
-            <p className="chat-subtitle">
-              Connect instantly with peers across PES — collaborate, clarify, and celebrate together.
-            </p>
-          </div>
-          <Button
-            variant="primary"
-            onClick={() => {
-              setSearchTerm('');
-              setSearchResults([]);
-              setSelectedConversationId(null);
-            }}
-            style={{ display: 'none' }}
-          >
-            New Chat
-          </Button>
-        </div>
-
+    <div className="chat-fullscreen">
         <div className="chat-layout">
           <Card className="chat-sidebar">
             <div className="chat-search">
@@ -754,7 +733,6 @@ export default function ChatPage() {
             )}
           </Card>
         </div>
-      </div>
     </div>
   );
 }
