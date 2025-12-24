@@ -110,3 +110,7 @@ To avoid clutter, screenshots are grouped using expandable sections.
 5\. Run `npm install` then `node index.js` <br>
 6\. In another terminal go to `chat-server` directory <br>
 7\. run `npm install` then `node index.js`
+
+
+**Team: AURA++**  
+Nayan Niranjana Kaushik • Nagaraj Hegde • Nihar Sureshwar Oak
