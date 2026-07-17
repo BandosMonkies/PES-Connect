@@ -90,6 +90,7 @@ To avoid clutter, screenshots are grouped using expandable sections.
 </details>
 
 ---
+---
 
 ## 🧠 System Architecture (High Level)
 
@@ -99,6 +100,7 @@ To avoid clutter, screenshots are grouped using expandable sections.
 - **Database:** Centralized user & content storage
 - **Authentication:** University-based identity (future-ready)
 
+---
 ---
 
 ## 🚀 Installation & Setup
